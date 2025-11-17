@@ -53,19 +53,27 @@ const userSchema = new mongoose.Schema({
     goal:{
         type:String,
         trim:true,
-        // required:true,
+        enum:["lose weight","maintain weight","gain weight"],
 
     },
     dietPreference:{
         type:String,
         trim:true,
+        enum:[
+            "none",
+            "balanced",
+            "high protein",
+            "vegetarian",
+            "vegan",
+            "gluten free",
+            ],
         
 
     },
     timePerDay:{
         type:String,
         trim:true,
-        // required:true,
+        min:10
 
     },
     planAccess:{
