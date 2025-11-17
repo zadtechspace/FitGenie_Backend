@@ -7,7 +7,7 @@ const isloggedin = require('../middlewares/isloggedin');
 authRouter.post('/register', registerUser);
 authRouter.post('/login', login);
 authRouter.post('/verifyDashboardToken', verifyDashboardToken);
-authRouter.get('/getSingleUser/:id',isloggedin, getSingleUser);
+authRouter.get('/profile/:id',isloggedin, getSingleUser);
 
 
 module.exports = authRouter
