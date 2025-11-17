@@ -50,33 +50,6 @@ const userSchema = new mongoose.Schema({
         // required:true,
 
     },
-<<<<<<< HEAD
-    goal:{
-        type:String,
-        trim:true,
-        enum:["lose weight","maintain weight","gain weight"],
-
-    },
-    dietPreference:{
-        type:String,
-        trim:true,
-        enum:[
-            "none",
-            "balanced",
-            "high protein",
-            "vegetarian",
-            "vegan",
-            "gluten free",
-            ],
-        
-
-    },
-    timePerDay:{
-        type:String,
-        trim:true,
-        min:10
-
-=======
     goal: {
         type: String,
         trim: true,
@@ -117,7 +90,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true,
         default: null
->>>>>>> 6ed115d169a130d67c21b951d76e0ae85eba14f8
     },
     isVerifiedtokenExpiry: {
         type: Date,
