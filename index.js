@@ -18,9 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 
-PORT = process.env.port
+const PORT = process.env.port
 
-URI = process.env.url
+const URL = process.env.url
 
 app.get('/', (req, res) => {
     res.send('Welcome to Express JS');
@@ -31,7 +31,7 @@ app.use("/api/user", userRouter)
 app.use("/api/fit-plan", require("./Routes/fitPlanRoute"))
 
 app.listen(PORT, () => {
-    mongoose.connect(URI).then(() => {
+    mongoose.connect(URL).then(() => {
         console.log(`Server is running on port ${PORT} and connected to database`);
     }).catch((err) => {
         console.log("Error connecting to database", err);
