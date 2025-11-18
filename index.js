@@ -12,13 +12,15 @@ const authRouter = require('./Routes/authRouter');
 const cors = require('cors');
 const userRouter = require('./Routes/userRoute');
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+
 app.use(cors())
 
 
-PORT = process.env.port
+const PORT = process.env.port
 
-URI = process.env.url
+const URL = process.env.url
 
 app.get('/', (req, res) => {
     res.send('Welcome to Express JS');
@@ -31,7 +33,7 @@ app.use("/api/subscription", require("./Routes/subscriptionRoute"))
 // app.use("/api/paystack-webhook", require("./Routes/"))
 
 app.listen(PORT, () => {
-    mongoose.connect(URI).then(() => {
+    mongoose.connect(URL).then(() => {
         console.log(`Server is running on port ${PORT} and connected to database`);
     }).catch((err) => {
         console.log("Error connecting to database", err);
