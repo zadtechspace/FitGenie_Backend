@@ -94,6 +94,20 @@ const userSchema = new mongoose.Schema({
     isVerifiedtokenExpiry: {
         type: Date,
         default: null
+    },
+    subscription: {
+        status: {
+            type: String,
+            enum: ["inactive", "pending", "active"],
+            default: "inactive"
+        },
+        plan: {
+            type: String,
+            enum: ["quarterly", "monthly", "yearly"]
+        },
+        startDate: Date,
+        endDate: Date,
+        reference: String
     }
 
 }, { timestamps: true })
