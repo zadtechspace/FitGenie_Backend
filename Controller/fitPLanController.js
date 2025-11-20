@@ -1,29 +1,88 @@
 const { generateObject, generateText } = require("ai")
 const { googleAi } = require("../Config/gemini")
 const { aiPlanSchema } = require("../scehmas/fitnessPlanSchema")
-const { fitnessPlanAiPrompt } = require("../utils/aiprompts")
+const { fitnessPlanAiPrompt } = require("../utils/aiprompts");
+const FitnessPlanModel = require("../Model/fitnessPlanModel");
 
 const createFitnessPlan = async (req, res) => {
     try {
-        const user = req.user
-        const { age, gender, height, weight, goal, dietPreference, timePerDay } = user
-        if (!age) return res.status(400).json({ message: "Age is required. Please update your profile." })
-        if (!gender) return res.status(400).json({ message: "gender is required. Please update your profile." })
-        if (!height) return res.status(400).json({ message: "height is required. Please update your profile." })
-        if (!weight) return res.status(400).json({ message: "weight is required. Please update your profile." })
-        if (!goal) return res.status(400).json({ message: "goal is required. Please update your profile." })
-        if (!timePerDay) return res.status(400).json({ message: "timePerDay is required. Please update your profile." })
-        if (!dietPreference) return res.status(400).json({ message: "dietPreference is required. Please update your profile." })
+        const user = req.user;
+
+        // Validate profile fields...
+        const { age, gender, height, weight, goal, dietPreference, timePerDay } = user;
+        const requiredFields = { age, gender, height, weight, goal, timePerDay, dietPreference };
+
+        for (const key in requiredFields) {
+            if (!requiredFields[key]) {
+                return res.status(400).json({
+                    message: `${key} is required. Please update your profile.`,
+                });
+            }
+        }
         const response = await generateObject({
             model: googleAi("gemini-2.5-flash"),
             prompt: fitnessPlanAiPrompt(user),
             schema: aiPlanSchema
-        })
-        res.status(200).json({ plan: response.text, response })
+        });
+
+        const plan = response.object;
+
+        // 🔥 Save plan to DB
+        const savedPlan = await FitnessPlanModel.create({
+            userId: user._id,
+            ...plan
+        });
+
+        res.status(200).json({
+            success: true,
+            message: "Fitness plan generated successfully",
+            plan: savedPlan
+        });
+
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({ message: error.message || "Internal Server Error" });
     }
-}
+};
 
-module.exports = { createFitnessPlan };
+const getFitnessPlanHistory = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const plans = await FitnessPlanModel.find({ userId }).sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            count: plans.length,
+            plans
+        });
+
+    } catch (error) {
+
+        res.status(500).json({ message: "Unable to fetch history", error });
+    }
+};
+
+const getLatestFitnessPlan = async (req, res) => {
+    try {
+        const userId = req.user._id;
+
+        const latestPlan = await FitnessPlanModel.findOne({ userId }).sort({ createdAt: -1 });
+
+        if (!latestPlan) {
+            return res.status(404).json({ message: "No fitness plan found." });
+        }
+
+        res.status(200).json({
+            success: true,
+            plan: latestPlan
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Unable to fetch latest plan", error });
+    }
+};
+
+
+
+module.exports = { createFitnessPlan, getFitnessPlanHistory, getLatestFitnessPlan };

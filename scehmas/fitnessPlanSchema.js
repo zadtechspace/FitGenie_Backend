@@ -37,7 +37,7 @@ const weekSchema = z.object({
             ),
         })
     ),
-
+    
     nutrition: z.object({
         dailyCalories: z.number().positive().int(),
         macros: z.object({
