@@ -29,6 +29,8 @@ app.get('/', (req, res) => {
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/fit-plan", require("./Routes/fitPlanRoute"))
+app.use("/api/subscription", require("./Routes/subscriptionRoute"))
+// app.use("/api/paystack-webhook", require("./Routes/"))
 
 app.listen(PORT, () => {
     mongoose.connect(URL).then(() => {
