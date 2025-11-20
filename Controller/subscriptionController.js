@@ -8,6 +8,9 @@ const initializeSubscription = async (req, res) => {
     try {
         const user = req.user
         const { plan } = req.body
+        if(user.subscription.status == `active`) {
+            return res.status(400).json({ success: false, message: "You already have an active subscription" })
+        }
         if (!plan) return res.status(400).json({ success: false, message: "Plan is required" })
         const planAmounts = {
             monthly: 10000 * 100,
@@ -77,5 +80,6 @@ const activateSubscription = async (req, res) => {
 // cancel subscription => refund
 
 module.exports = {
-    initializeSubscription
+    initializeSubscription,
+    activateSubscription
 }
