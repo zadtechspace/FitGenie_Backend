@@ -4,7 +4,8 @@ const updateUserProfile = async (req, res) => {
     try {
         const userId = req.user._id;
         const updateData = req.body;
-        const { age, gender, height, weight, goal, timePerDay, dietPreference } = updateData
+        const {age, gender, height, weight, goal, timePerDay, dietPreference } = updateData
+       
         if (!age) return res.status(400).json({ message: "Age is required" })
         if (!gender) return res.status(400).json({ message: "gender is required" })
         if (!height) return res.status(400).json({ message: "height is required" })
@@ -15,12 +16,35 @@ const updateUserProfile = async (req, res) => {
 
         const updatedUser = await userModel.findByIdAndUpdate(userId, updateData, { new: true });
         if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({success:false ,message: 'User not found' });
         }
-        res.status(200).json({ message: 'User profile updated successfully', user: updatedUser });
+        res.status(200).json({success:true, message: 'User profile updated successfully', user: updatedUser });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
-module.exports = { updateUserProfile };
+
+const viewUserProfile = async (req, res) => {
+
+        const userId = req.user._id;
+    try {
+        const user = await userModel.findById(userId)
+        if(!user){
+            return res.status(404).json({
+                success:false,
+                message:"User not found"
+            })
+        }
+
+        res.status(200).json({
+            success:true,
+            message:"user info fetched successfully",
+            user
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = { updateUserProfile,viewUserProfile };

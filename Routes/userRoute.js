@@ -1,8 +1,9 @@
 const express = require('express');
 const userRouter = express.Router();
-const {getUserProfile, updateUserProfile} = require('../Controller/userController');
+const {viewUserProfile, updateUserProfile} = require('../Controller/userController');
 const isloggedin = require('../middlewares/isloggedin');
 
-userRouter.put('/profile', isloggedin, updateUserProfile);
+userRouter.put('/updateprofile', isloggedin, updateUserProfile);
+userRouter.get('/viewprofile/:_id', isloggedin, viewUserProfile);
 
 module.exports = userRouter;

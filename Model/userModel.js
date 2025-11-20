@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
     gender: {
         type: String,
         trim: true,
-        enum: ["male", "female"]
+        enum: ["Male", "Female"]
 
     },
     height: {
@@ -53,18 +53,18 @@ const userSchema = new mongoose.Schema({
     goal: {
         type: String,
         trim: true,
-        enum: ["lose weight", "maintain weight", "gain weight"]
+        enum: ["Lose Weight", "Maintain Weight", "Gain Weight"]
     },
     dietPreference: {
         type: String,
         trim: true,
         enum: [
-            "none",
-            "balanced",
-            "high_protein",
-            "vegetarian",
-            "vegan",
-            "gluten_free",
+            "None",
+            "Balanced",
+            "High_Protein",
+            "Vegetarian",
+            "Vegan",
+            "Gluten_Free",
         ],
 
     },
