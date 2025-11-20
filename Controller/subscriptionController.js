@@ -51,7 +51,7 @@ const activateSubscription = async (req, res) => {
         if (updatedHash !== req.headers["x-paystack-signature"]) {
             return res.status(401).send("Invalid signature")
         }
-        const body = JSON.parse(req.body)
+        const body = JSON.parse(req.body.toString("utf8"));
         console.log(body)
         if (body.event == "charge.success") {
             const { userId, plan } = body.data.metadata

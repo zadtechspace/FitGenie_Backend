@@ -12,6 +12,14 @@ const authRouter = require('./Routes/authRouter');
 const cors = require('cors');
 const morgan = require('morgan');
 const userRouter = require('./Routes/userRoute');
+const { activateSubscription } = require('./Controller/subscriptionController');
+
+app.post(
+    "/api/subscription/webhook",
+    express.raw({ type: "*/*" }),   // keep body as buffer
+    activateSubscription
+);
+
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
