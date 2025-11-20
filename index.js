@@ -10,12 +10,13 @@ const mongoose = require('mongoose');
 const authRouter = require('./Routes/authRouter');
 
 const cors = require('cors');
+const morgan = require('morgan');
 const userRouter = require('./Routes/userRoute');
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cors())
+app.use(morgan('dev'));
 
 
 const PORT = process.env.port
