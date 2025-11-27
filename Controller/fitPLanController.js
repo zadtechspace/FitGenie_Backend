@@ -9,7 +9,7 @@ const createFitnessPlan = async (req, res) => {
         const user = req.user;
 
         // Validate profile fields...
-        const { age, gender, height, weight, goal, dietPreference, timePerDay } = user;
+        const { age, gender, height, weight, goal, dietPreference, timePerDay } = req.body;
         const requiredFields = { age, gender, height, weight, goal, timePerDay, dietPreference };
 
         for (const key in requiredFields) {
